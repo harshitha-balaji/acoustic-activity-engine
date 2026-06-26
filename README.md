@@ -1,4 +1,4 @@
-# 🔊 Acoustic Activity Engine (AAE)
+# 🎙️ Acoustic Activity Engine (AAE)
 
 > **Config-driven speaker detection and activity tracking engine** — extracts voiced observations from audio, maintains speaker identity across frames via MFCC-pitch cosine assignment, and emits only confirmed, durable activity events. No ML models. Pure acoustic signal processing.
 
@@ -20,15 +20,15 @@ Give it an audio file and an acoustic profile, and it tracks every distinct spea
 
 ```
 Available Acoustic Profiles:
-> ['interview', 'classroom']
+> ['meeting', 'wildlife']
 
 Enter profile:
-> interview
+> meeting
 
 Audio file:
 > sample_audio.wav
 
-[INFO] Profile: INTERVIEW
+[INFO] Profile: MEETING
 [INFO] Audio: sample_audio.wav
 
 0.60s : Entity_0 STARTED
@@ -39,7 +39,7 @@ Audio file:
 ==============================
 ACTIVITY SUMMARY
 ==============================
-Profile: interview
+Profile: meeting
 Total Events: 6
 ==============================
 ```
@@ -53,7 +53,7 @@ Total Events: 6
 - **Hungarian assignment matching** — globally optimal observation-to-entity assignment via linear sum on the full similarity cost matrix
 - **Two-stage confirmation gate** — observations enter a pending buffer and are only promoted to confirmed entities after sustained cross-frame evidence
 - **Exponential moving average signature update** — confirmed entity signatures adapt gradually over time rather than snapping to each new observation
-- **Multi-domain acoustic profiles** — switch between interview, classroom, or any custom environment via config without touching engine logic
+- **Multi-domain acoustic profiles** — switch between meeting, wildlife, or any custom environment via config without touching engine logic
 
 ---
 
@@ -128,9 +128,9 @@ python acoustic_activity_engine.py
 ### 3. Follow the prompts
 
 ```
-Available: ['interview', 'classroom']
+Available: ['meeting', 'wildlife']
 
-Profile: interview
+Profile: meeting
 
 Audio file: sample_audio.wav
 ```
@@ -167,13 +167,13 @@ To add a new environment (e.g. `podcast`, `call_centre`), add a top-level key wi
 ## Design Decisions
 
 **Why no ML model?**
-AAE was built signal-first deliberately — MFCC extraction and autocorrelation pitch estimation instead of learned speaker embeddings. The engine stays lightweight, interpretable, and runnable on CPU without pretrained weights or GPU dependencies. The ceiling of this approach (overlapping speech, unseen acoustic environments) directly motivates why speaker embedding models like `pyannote/speaker-diarization` exist.
+AAE was built signal-first deliberately — MFCC extraction and autocorrelation pitch estimation instead of learned speaker embeddings. The engine stays lightweight, interpretable, and runnable on CPU without pretrained weights or GPU dependencies. The ceiling of this approach (overlapping speech, unseen acoustic environments) directly motivates why speaker embedding models like `pyannote` exist.
 
 **Why Hungarian assignment instead of greedy nearest-neighbour?**
 Greedy matching picks the best local pair at each step, which can steal an observation from a better-fitting entity further down the cost matrix. Linear sum assignment minimises the global cost across all simultaneous pairings in a single pass, producing consistently lower total mismatch — especially important when two speakers have similar MFCC profiles.
 
 **Why config-driven?**
-Hardcoded acoustic thresholds make adaptation impossible across recording environments. Externalising profiles means the same tracking engine handles a quiet interview and a noisy classroom without touching a line of engine logic.
+Hardcoded acoustic thresholds make adaptation impossible across recording environments. Externalising profiles means the same tracking engine handles a meeting and a serene wildlife recording without touching a line of engine logic.
 
 ---
 
@@ -196,5 +196,14 @@ Hardcoded acoustic thresholds make adaptation impossible across recording enviro
 - Performance depends on appropriate profile-specific energy and similarity thresholds for the target acoustic environment
 
 ---
+## Sample Audio Attribution
+
+Sample conversation recording used for testing was sourced from:
+https://www.kaggle.com/datasets/mozillaorg/common-voice/data
+
+Credit belongs to the original author and dataset providers. Refer to the Kaggle page for licensing and usage terms.
+
+---
+
 
 *Built signal-first. The ceiling of this approach is the reason speaker embedding models exist.*
