@@ -1,0 +1,16 @@
+# Acoustic Activity Engine — Dependencies
+# Install with: pip install -r requirements.txt
+# Then run:     python acoustic_activity_engine.py
+
+# --- Audio Processing & Feature Extraction ---
+librosa==0.11.0
+
+# --- Numerical Computation ---
+numpy==2.3.4
+
+# --- Optimal Assignment ---
+scipy==1.16.2
+
+# --- Standard Library Modules Used ---
+# json
+# dataclasses
