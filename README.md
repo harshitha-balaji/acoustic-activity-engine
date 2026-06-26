@@ -1,6 +1,6 @@
 # 🎙️ Acoustic Activity Engine (AAE)
 
-> **Config-driven speaker detection and activity tracking engine** — extracts voiced observations from audio, maintains speaker identity across frames via MFCC-pitch cosine assignment, and emits only confirmed, durable activity events. No ML models. Pure acoustic signal processing.
+> **Config-driven speaker activity tracking engine** — extracts voiced observations from audio, maintains speaker identity across frames via combined MFCC-pitch similarity assignment, and emits only confirmed, sustained activity events. No ML models. Pure acoustic signal processing.
 
 ![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=flat-square&logo=python&logoColor=white)
 [![librosa](https://img.shields.io/badge/Audio-librosa-FF6B35?style=flat-square)](https://librosa.org/)
@@ -105,8 +105,8 @@ acoustic_activity_engine/
 
 | Layer | Library |
 |-------|---------|
-| Audio loading and MFCC extraction | `librosa` |
-| Numerical computation and similarity matrices | `NumPy` |
+| Audio loading and feature extraction | `librosa` |
+| Numerical computation and vector operations | `NumPy` |
 | Optimal Hungarian assignment | `SciPy` (`linear_sum_assignment`) |
 
 ---
@@ -173,15 +173,14 @@ AAE was built signal-first deliberately — MFCC extraction and autocorrelation 
 Greedy matching picks the best local pair at each step, which can steal an observation from a better-fitting entity further down the cost matrix. Linear sum assignment minimises the global cost across all simultaneous pairings in a single pass, producing consistently lower total mismatch — especially important when two speakers have similar MFCC profiles.
 
 **Why config-driven?**
-Hardcoded acoustic thresholds make adaptation impossible across recording environments. Externalising profiles means the same tracking engine handles a meeting and a serene wildlife recording without touching a line of engine logic.
-
+Hardcoded acoustic thresholds make adaptation impossible across recording environments. Externalising profiles means the same tracking engine handles a meeting and a wildlife recording without touching a line of engine logic.
 ---
 
 ## Roadmap
 
 - [ ] Swap pitch estimator for `CREPE` neural F0 model for higher accuracy on degraded audio
 - [ ] Real-time streaming mode using `sounddevice` for live microphone input
-- [ ] Per-entity transcript alignment via Whisper timestamps
+- [ ] Per-entity transcript alignment via `Whisper` timestamps
 - [ ] Overlap detection for simultaneous multi-speaker frames
 - [ ] Export to RTTM diarisation format for benchmarking against standard datasets
 
