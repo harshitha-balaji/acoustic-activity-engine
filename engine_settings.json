@@ -1,0 +1,12 @@
+{
+    "global_settings":
+    {
+        "memory_limit": 10,
+
+        "signature_smoothing_alpha": 0.7,
+
+        "min_confirmation_frames": 2,
+
+        "mfcc_alpha": 0.3
+    }
+}

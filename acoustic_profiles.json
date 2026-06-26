@@ -1,0 +1,39 @@
+{
+    "meeting":
+    {
+        "window_duration": 0.6,
+
+        "context_window_multiplier": 2,
+
+        "f0_frame_duration": 0.3,
+
+        "minimum_energy": 0.0008,
+
+        "n_mfcc": 13,
+
+        "use_delta_mfcc": true,
+
+        "similarity_threshold": 0.82,
+
+        "minimum_activity_duration": 0.5
+    },
+
+    "wildlife":
+    {
+        "window_duration": 0.3,
+
+        "context_window_multiplier": 1,
+
+        "f0_frame_duration": 0.15,
+
+        "minimum_energy": 0.0015,
+
+        "n_mfcc": 20,
+
+        "use_delta_mfcc": true,
+
+        "similarity_threshold": 0.82,
+
+        "minimum_activity_duration": 0.25
+    }
+}
